@@ -92,13 +92,17 @@ function GameHandler(playerOneName = "Player One", playerTwoName = "Player Two")
         console.log(getActivePlayer());
 
     };
+
+    const getBoard = () => board.getBoard();
+
     const checkWinner = () => { };
     const isTie = () => { };
-    const resetGame = () => { };
+    const resetGame = () => board.resetBoard();
 
     return {
         switchPlayerTurn,
         getActivePlayer,
+        getBoard, 
         playRound,
         checkWinner,
         isTie,
@@ -108,7 +112,21 @@ function GameHandler(playerOneName = "Player One", playerTwoName = "Player Two")
 
 const game = GameHandler("Alice", "Bob");
 
+// Play a couple moves
 game.playRound(0, 0); // Alice places X
-game.playRound(0, 0); // Invalid move, Bob tries same spot
 game.playRound(1, 1); // Bob places O
+
+console.log("Before reset:");
+console.table(
+    gameBoardState = game.getBoard().map(row => row.map(cell => cell.getValue()))
+);
+
+// Reset the board
+game.resetGame();
+
+console.log("After reset:");
+console.table(
+    gameBoardState = game.getBoard().map(row => row.map(cell => cell.getValue()))
+);
+
 
