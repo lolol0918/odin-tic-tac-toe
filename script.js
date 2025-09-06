@@ -1,4 +1,4 @@
-// generate the gameBoard factory
+// generate the Gameboard() factory
 
 function Gameboard() {
     const rows = 3;
@@ -11,9 +11,7 @@ function Gameboard() {
         for (let i = 0; i < rows; i++) {
             board[i] = [];
             for (let j = 0; j < columns; j++) {
-                // this part "[]" is subject to changes 
-                // just a placeholder
-                // need to change it later after implementing the cell object
+                // generates the Cell() objects
                 board[i].push(Cell());
             }
         }
@@ -24,8 +22,7 @@ function Gameboard() {
     const resetBoard = () => initBoard();
 
     const setMarker = (row, col, marker) => {
-        console.log("hello");
-        board[row][col].addMarker(marker);
+        return board[row][col].addMarker(marker);
         // returns true/false if move was valid
     };
 
@@ -45,15 +42,73 @@ function Cell() {
             return true; // returns true the cell is not yet occupied
         }
 
+        // does not change anything if it is occupied
         return false; // fails because the cell is already occupied
-
     };
 
     return { getValue, addMarker };
 };
 
-const game = Gameboard();
+function GameHandler(playerOneName = "Player One", playerTwoName = "Player Two") {
+    const board = Gameboard();
+
+    const players = [
+        {
+            name: playerOneName,
+            marker: 'X'
+        },
+        {
+            name: playerTwoName,
+            marker: 'O'
+        },
+    ];
+
+    // TODO
+
+    let activePlayer = players[0];
+
+    const switchPlayerTurn = () => {
+        activePlayer = activePlayer === players[0] ? players[1] : players[0];
+    };
+
+    const getActivePlayer = () => activePlayer;
 
 
-game.setMarker(0, 0, 'X');
-console.log(game.getBoard()[0][0].getValue());
+    const playRound = (row, col) => {
+        console.log(board.getBoard()[row][col]);
+        const success = board.setMarker(row, col, activePlayer.marker);
+
+        if (!success) {
+            console.log("cell is already taken");
+            return;
+        }
+        // For now: just log board and switch player
+        console.table(
+            board.getBoard().map(row => row.map(cell => cell.getValue()))
+        );
+
+        switchPlayerTurn();
+
+        console.log(getActivePlayer());
+
+    };
+    const checkWinner = () => { };
+    const isTie = () => { };
+    const resetGame = () => { };
+
+    return {
+        switchPlayerTurn,
+        getActivePlayer,
+        playRound,
+        checkWinner,
+        isTie,
+        resetGame,
+    };
+};
+
+const game = GameHandler("Alice", "Bob");
+
+game.playRound(0, 0); // Alice places X
+game.playRound(0, 0); // Invalid move, Bob tries same spot
+game.playRound(1, 1); // Bob places O
+
