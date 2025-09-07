@@ -1,0 +1,23 @@
+{
+  "name": "odin-tic-tac-toe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lolol0918/odin-tic-tac-toe.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lolol0918/odin-tic-tac-toe/issues"
+  },
+  "homepage": "https://github.com/lolol0918/odin-tic-tac-toe#readme",
+  "devDependencies": {
+    "jest": "^30.1.3"
+  }
+}

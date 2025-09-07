@@ -1,5 +1,6 @@
 // generate the Gameboard() factory
 
+
 function Gameboard() {
     const rows = 3;
     const columns = 3;
@@ -82,10 +83,16 @@ function GameHandler(playerOneName = "Player One", playerTwoName = "Player Two")
             console.log("cell is already taken");
             return;
         }
-        // For now: just log board and switch player
-        console.table(
-            board.getBoard().map(row => row.map(cell => cell.getValue()))
-        );
+
+        if (checkWinner()) {
+            console.log(`${activePlayer} wins`);
+            return;
+        }
+
+        if (isTie()) {
+            console.log("It's a tie!");
+            return;
+        }
 
         switchPlayerTurn();
 
@@ -95,11 +102,11 @@ function GameHandler(playerOneName = "Player One", playerTwoName = "Player Two")
 
     const getBoard = () => board.getBoard();
 
-    const checkWinner = () => { 
+    const checkWinner = () => {
         let values = getBoard().map(row => row.map(cell => cell.getValue()));
 
         for (let row = 0; row < 3; row++) {
-            if(values[row][0] !== "" && values[row][0] === values[row][1] && values[row][1] === values[row][2]) {
+            if (values[row][0] !== "" && values[row][0] === values[row][1] && values[row][1] === values[row][2]) {
                 return values[row][0];
             }
         }
@@ -121,7 +128,10 @@ function GameHandler(playerOneName = "Player One", playerTwoName = "Player Two")
         return null;
     };
 
-    const isTie = () => { };
+    const isTie = () => { 
+        return getBoard().flat().every( cell => cell.getValue() !== "");
+    };
+    
     const resetGame = () => board.resetBoard();
 
     return {
@@ -134,6 +144,8 @@ function GameHandler(playerOneName = "Player One", playerTwoName = "Player Two")
         resetGame,
     };
 };
+
+module.exports = { GameHandler, Gameboard, Cell };
 
 
 
