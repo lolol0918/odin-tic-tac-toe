@@ -95,14 +95,39 @@ function GameHandler(playerOneName = "Player One", playerTwoName = "Player Two")
 
     const getBoard = () => board.getBoard();
 
-    const checkWinner = () => { };
+    const checkWinner = () => { 
+        let values = getBoard().map(row => row.map(cell => cell.getValue()));
+
+        for (let row = 0; row < 3; row++) {
+            if(values[row][0] !== "" && values[row][0] === values[row][1] && values[row][1] === values[row][2]) {
+                return values[row][0];
+            }
+        }
+
+        for (let col = 0; col < 3; col++) {
+            if (values[0][col] !== "" && values[0][col] === values[1][col] && values[1][col] === values[2][col]) {
+                return values[0][col];
+            }
+        }
+
+        if (values[0][0] !== "" && values[0][0] === values[1][1] && values[1][1] === values[2][2]) {
+            return values[0][0];
+        }
+
+        if (values[0][0] !== "" && values[0][2] === values[1][1] && values[1][1] === values[2][0]) {
+            return values[0][2];
+        }
+
+        return null;
+    };
+
     const isTie = () => { };
     const resetGame = () => board.resetBoard();
 
     return {
         switchPlayerTurn,
         getActivePlayer,
-        getBoard, 
+        getBoard,
         playRound,
         checkWinner,
         isTie,
@@ -110,23 +135,5 @@ function GameHandler(playerOneName = "Player One", playerTwoName = "Player Two")
     };
 };
 
-const game = GameHandler("Alice", "Bob");
-
-// Play a couple moves
-game.playRound(0, 0); // Alice places X
-game.playRound(1, 1); // Bob places O
-
-console.log("Before reset:");
-console.table(
-    gameBoardState = game.getBoard().map(row => row.map(cell => cell.getValue()))
-);
-
-// Reset the board
-game.resetGame();
-
-console.log("After reset:");
-console.table(
-    gameBoardState = game.getBoard().map(row => row.map(cell => cell.getValue()))
-);
 
 
