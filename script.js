@@ -64,7 +64,9 @@ function GameHandler(playerOneName = "Player One", playerTwoName = "Player Two")
         },
     ];
 
-    // TODO
+    // Gameover feature to prevent click events for the cell after the game is over
+
+    let gameOver = false;
 
     let activePlayer = players[0];
 
@@ -77,6 +79,10 @@ function GameHandler(playerOneName = "Player One", playerTwoName = "Player Two")
 
     const playRound = (row, col) => {
         console.log(board.getBoard()[row][col]);
+
+        // if the game is over it does not add a marker
+        if (gameOver) return { success: false, message: "Game is already over" };
+
         const success = board.setMarker(row, col, activePlayer.marker);
 
         if (!success) {
@@ -84,16 +90,17 @@ function GameHandler(playerOneName = "Player One", playerTwoName = "Player Two")
         }
 
         if (checkWinner()) {
+            gameOver = true;
             return { success: true, winner: activePlayer };
         }
 
         if (isTie()) {
+            gameOver = true;
             return { success: true, tie: true };
         }
 
         switchPlayerTurn();
         return { success: true };
-
     };
 
     const getBoard = () => board.getBoard();
@@ -128,7 +135,11 @@ function GameHandler(playerOneName = "Player One", playerTwoName = "Player Two")
         return getBoard().flat().every(cell => cell.getValue() !== "");
     };
 
-    const resetGame = () => board.resetBoard();
+    const resetGame = () => {
+        board.resetBoard();
+        gameOver = false;
+        activePlayer = players[0];
+    };
 
     return {
         switchPlayerTurn,

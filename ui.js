@@ -1,56 +1,65 @@
-import { GameHandler, Cell } from "./script.js";
+import { GameHandler } from "./script.js";
+
+const boardEl = document.querySelector(".board");
+const messageEl = document.querySelector(".message");
+const resetBtn = document.getElementById("reset-btn");
 
 const game = GameHandler("Alice", "Bob");
 
-document.addEventListener('DOMContentLoaded', () => {
-  const boardEl = document.querySelector('.board');
-  if (!boardEl) {
-    console.error('No .board element found');
-    return;
-  }
+function renderBoard() {
+  const boardState = game.getBoard();
+  boardEl.innerHTML = "";
 
-  // Ensure the board is empty (removes any hardcoded cells)
-  boardEl.innerHTML = '';
-
-  // Build a 3x3 grid of cells
   for (let row = 0; row < 3; row++) {
     for (let col = 0; col < 3; col++) {
-      const cell = document.createElement('div');
-      cell.classList.add('cell');
+      const cell = document.createElement("div");
+      cell.classList.add("cell");
       cell.dataset.row = row;
       cell.dataset.col = col;
+      cell.textContent = boardState[row][col].getValue();
       boardEl.appendChild(cell);
     }
   }
+}
 
+function updateMessage(result) {
+  if (result?.winner) {
+    messageEl.textContent = `${result.winner.name} wins!`;
+  } else if (result?.tie) {
+    messageEl.textContent = "It's a tie!";
+  } else {
+    messageEl.textContent =
+      `Next turn: ${game.getActivePlayer().name} (${game.getActivePlayer().marker})`;
+  }
+}
 
-  boardEl.addEventListener('click', (e) => {
-    const cell = e.target.closest('.cell');
-    if (!cell || !boardEl.contains(cell)) return;
+function handleClick(e) {
+  const cell = e.target.closest(".cell");
+  if (!cell || !boardEl.contains(cell)) return;
 
-    const row = Number(cell.dataset.row);
-    const col = Number(cell.dataset.col);
+  const row = Number(cell.dataset.row);
+  const col = Number(cell.dataset.col);
 
-    const result = game.playRound(row, col);
+  const result = game.playRound(row, col);
 
-    if (!result.success) {
-      console.log(result.message);
-      return;
-    }
+  if (!result.success) {
+    console.log(result.message);
+    return;
+  }
 
-    cell.innerText = game.getBoard()[row][col].getValue();
+  renderBoard();
+  updateMessage(result);
+}
 
-    game.playRound(row, col);
+// Event listeners
+boardEl.addEventListener("click", handleClick);
 
-    if (result.winner) {
-      document.querySelector('.message').textContent = `${result.winner.name} wins!`;
-    } else if (result.tie) {
-      document.querySelector('.message').textContent = "It's a tie!";
-    } else {
-      document.querySelector('.message').textContent =
-        `Next turn: ${game.getActivePlayer().name} (${game.getActivePlayer().marker})`;
-    }
-  });
+resetBtn.addEventListener("click", () => {
+  game.resetGame();
+  renderBoard();
+  updateMessage();
 });
 
-
+// Initial render
+renderBoard();
+updateMessage();
