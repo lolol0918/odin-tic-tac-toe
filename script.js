@@ -80,23 +80,19 @@ function GameHandler(playerOneName = "Player One", playerTwoName = "Player Two")
         const success = board.setMarker(row, col, activePlayer.marker);
 
         if (!success) {
-            console.log("cell is already taken");
-            return;
+            return { success: false, message: "Cell already taken" };
         }
 
         if (checkWinner()) {
-            console.log(`${activePlayer} wins`);
-            return;
+            return { success: true, winner: activePlayer };
         }
 
         if (isTie()) {
-            console.log("It's a tie!");
-            return;
+            return { success: true, tie: true };
         }
 
         switchPlayerTurn();
-
-        console.log(getActivePlayer());
+        return { success: true };
 
     };
 
@@ -128,10 +124,10 @@ function GameHandler(playerOneName = "Player One", playerTwoName = "Player Two")
         return null;
     };
 
-    const isTie = () => { 
-        return getBoard().flat().every( cell => cell.getValue() !== "");
+    const isTie = () => {
+        return getBoard().flat().every(cell => cell.getValue() !== "");
     };
-    
+
     const resetGame = () => board.resetBoard();
 
     return {
@@ -145,7 +141,7 @@ function GameHandler(playerOneName = "Player One", playerTwoName = "Player Two")
     };
 };
 
-module.exports = { GameHandler, Gameboard, Cell };
+export { GameHandler, Cell };
 
 
 
