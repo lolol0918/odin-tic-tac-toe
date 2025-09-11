@@ -7,13 +7,38 @@
         <link rel="stylesheet" href="./style.css">
     </head>
     <body>
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2 class="sidebar-title">Game Controls</h2>
+            </div>
+            <div class="player-info">
+                <div class="player-title">Player X</div>
+                <div class="player-stats">
+                    <span class="player-x">X</span>
+                    <span class="score-display player-x">0</span>
+                </div>
+            </div>
+            <div class="player-info">
+                <div class="player-title">Player O</div>
+                <div class="player-stats">
+                    <span class="player-o">O</span>
+                    <span class="score-display player-o">0</span>
+                </div>
+            </div>
+            <div class="controls">
+                <button class="control-btn reset-btn" id="reset-btn">Reset Game</button>
+                <button class="control-btn new-game-btn">New Game</button>
+            </div>
+            <div class="game-history">
+                <div class="history-title">Game History</div>
+                <div class="history-item">No games played yet</div>
+            </div>
+        </div>
         <div class="container">
             <h1>Tic-Tac-Toe</h1>
             <div class="message">Game In Progress - Player X's Turn</div>
             <div class="board">
-                <!-- add cell via javascript -->
-            </div>
-            <button id="reset-btn">RESET GAME</button>
+                <!-- add cell via javascript --></div>
         </div>
         <script src="./script.js" defer></script>
         <script type="module" src="./ui.js" defer></script>

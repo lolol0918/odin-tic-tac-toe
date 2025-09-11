@@ -13,10 +13,18 @@ function renderBoard() {
   for (let row = 0; row < 3; row++) {
     for (let col = 0; col < 3; col++) {
       const cell = document.createElement("div");
-      cell.classList.add("cell");
       cell.dataset.row = row;
       cell.dataset.col = col;
-      cell.textContent = boardState[row][col].getValue();
+      cell.classList.add("cell");
+
+      const value = boardState[row][col].getValue();
+      if (value) {
+        cell.classList.add(value.toLowerCase());
+      }
+
+
+
+      cell.textContent = value;
       boardEl.appendChild(cell);
     }
   }
