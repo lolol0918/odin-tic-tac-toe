@@ -185,31 +185,6 @@ h1 {
   transform: translateY(-2px);
 }
 
-.game-history {
-  flex-grow: 1;
-  background: #f8f9fa;
-  border-radius: 10px;
-  padding: 15px;
-  border: 2px solid #dfe6e9;
-  overflow-y: auto;
-}
-
-.history-title {
-  font-weight: bold;
-  color: #636e72;
-  margin-bottom: 10px;
-  font-size: 1.1rem;
-  font-family: 'Arial', sans-serif;
-}
-
-.history-item {
-  padding: 8px;
-  margin-bottom: 8px;
-  background: white;
-  border-radius: 6px;
-  border-left: 4px solid #74b9ff;
-  font-family: 'Arial', sans-serif;
-}
 
 @media (max-width: 600px) {
   .container {

@@ -64,6 +64,8 @@ function GameHandler(playerOneName = "Player One", playerTwoName = "Player Two")
         },
     ];
 
+    let scores = { 'X': 0, 'O': 0 };
+
     // Gameover feature to prevent click events for the cell after the game is over
 
     let gameOver = false;
@@ -91,6 +93,8 @@ function GameHandler(playerOneName = "Player One", playerTwoName = "Player Two")
 
         if (checkWinner()) {
             gameOver = true;
+            scores[activePlayer.marker]++;
+            console.log(scores);
             return { success: true, winner: activePlayer };
         }
 
@@ -141,6 +145,14 @@ function GameHandler(playerOneName = "Player One", playerTwoName = "Player Two")
         activePlayer = players[0];
     };
 
+
+    const newGame = () => {
+        resetGame();
+        scores.X = 0;
+        scores.O = 0;
+    };
+
+
     return {
         switchPlayerTurn,
         getActivePlayer,
@@ -149,6 +161,8 @@ function GameHandler(playerOneName = "Player One", playerTwoName = "Player Two")
         checkWinner,
         isTie,
         resetGame,
+        newGame,
+        scores
     };
 };
 

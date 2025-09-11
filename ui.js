@@ -3,8 +3,19 @@ import { GameHandler } from "./script.js";
 const boardEl = document.querySelector(".board");
 const messageEl = document.querySelector(".message");
 const resetBtn = document.getElementById("reset-btn");
+const player1El = document.getElementById("player1");
+const player2El = document.getElementById("player2");
+const newGameBtn = document.getElementById("new-game-btn");
 
-const game = GameHandler("Alice", "Bob");
+const game = GameHandler("Player 1", "Player 2");
+
+
+
+// Example: update when scores change
+function updateScores(scores) {
+  player1El.textContent = scores['X'];
+  player2El.textContent = scores['O'];
+}
 
 function renderBoard() {
   const boardState = game.getBoard();
@@ -21,8 +32,6 @@ function renderBoard() {
       if (value) {
         cell.classList.add(value.toLowerCase());
       }
-
-
 
       cell.textContent = value;
       boardEl.appendChild(cell);
@@ -56,7 +65,9 @@ function handleClick(e) {
   }
 
   renderBoard();
+
   updateMessage(result);
+  updateScores(game.scores);
 }
 
 // Event listeners
@@ -65,7 +76,14 @@ boardEl.addEventListener("click", handleClick);
 resetBtn.addEventListener("click", () => {
   game.resetGame();
   renderBoard();
-  updateMessage();
+  updateMessage({}); // "Player X's turn"
+});
+
+newGameBtn.addEventListener("click", () => {
+  game.newGame();
+  renderBoard();
+  updateScores(game.scores); 
+  updateMessage({}); 
 });
 
 // Initial render
